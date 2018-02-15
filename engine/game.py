@@ -9,7 +9,10 @@ class Game():
         chiphered = ""
     
         for w in word:
-            chiphered += cipher[w]
+            for num in cipher[w]:
+                chiphered += str(num)
+                chiphered += " " 
+            chiphered += "| "    
             
         return chiphered
      
@@ -18,9 +21,10 @@ class Game():
         
         for l in letters:
             
-            cifer = ""
+            cifer = []
             for i in range(0, 3):
-                cifer += random.choice(string.ascii_letters)
+                r = random.randint(1, 10)
+                cifer.append(r)
              
             ciphered[l] = cifer
 
