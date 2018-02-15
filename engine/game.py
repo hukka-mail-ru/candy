@@ -25,7 +25,7 @@ class Game():
         
         for l in letters:
             
-            while True: # endlessly, until a unique cipher is found
+            while True: # until a unique cipher is found
                 ciferForLetter = []
                 for i in range(0, MAX_CIPHER_LEN):
                     r = random.randint(0, MAX_CIPHER_VAL)
