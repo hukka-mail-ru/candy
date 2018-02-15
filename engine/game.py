@@ -2,19 +2,23 @@ from string import ascii_lowercase
 import random
 import string
 
+
+
+
+
 class Game():
     
     def getChipheredWord(self, word, cipher):
     
-        chiphered = ""
+        chipheredWord = []
     
         for w in word:
+            chipheredLetter = []
             for num in cipher[w]:
-                chiphered += str(num)
-                chiphered += " " 
-            chiphered += "| "    
+                chipheredLetter.append(num)   
+            chipheredWord.append(chipheredLetter)   
             
-        return chiphered
+        return chipheredWord
      
     def getChipher(self, letters):
         ciphered = {}
@@ -57,9 +61,13 @@ class Game():
         
         print("cipher", cipher)
         
-        chiphered = self.getChipheredWord(word, cipher)
+        chipheredWord = self.getChipheredWord(word, cipher)
         
-        print("ciphered word", chiphered)
+        for chipheredLetter in chipheredWord:
+            l = ""
+            for num in chipheredLetter:
+                l += str(num) + " "       
+            print("ciphered", l)
         
         guessed = input('input something!: ') 
         
