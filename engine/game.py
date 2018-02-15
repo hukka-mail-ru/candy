@@ -9,39 +9,40 @@ MAX_CIPHER_VAL = 10
 
 class Game():
     
-    def getCipheredWord(self, word: string, cipherDict: dict) -> list:
+    def getCipheredWord(self, word: string, rulesDict: dict) -> list:
     
         cipheredWord = []
     
         for letter in word:
-            cipheredLetter = cipherDict[letter]
+            cipheredLetter = rulesDict[letter]
             cipheredWord.append(cipheredLetter)   
             
         return cipheredWord
     
      
-    def createChipherDict(self, letters) -> dict: # letter-chifer
-        chipherDict = {}
+    def createRulesDict(self, letters) -> dict: # letter-chifer
+        rulesDict = {}
         
         for l in letters:
             
             while True: # until a unique cipher is found
-                ciferForLetter = []
+                ruleForLetter = []
                 for i in range(0, MAX_CIPHER_LEN):
                     r = random.randint(0, MAX_CIPHER_VAL)
-                    ciferForLetter.append(r)
+                    ruleForLetter.append(r)
                 
                 # check whether cipher already exists
-                if ciferForLetter in chipherDict.values():
+                if ruleForLetter in rulesDict.values():
                     continue    
                  
-                chipherDict[l] = ciferForLetter
+                rulesDict[l] = ruleForLetter
                 break;
 
-        return chipherDict
+        return rulesDict
     
     
     def getDistinctLetters(self, word: string) -> list:
+        
         
         distinct = {}
         for w in word:
@@ -50,32 +51,49 @@ class Game():
         letters = []
         for key in distinct:
             letters.append(key)
+   
     
         return letters
     
     
     def chooseWord(self) -> string:
         
-        return "my name is mooo"
+        words = ["ant", "cat", "dog", "joy", "key", "bar"]
+        r = random.randint(0, len(words) - 1)
+        
+        return words[r]
     
     
     def start(self):
         
-        word = self.chooseWord()
-        letters = self.getDistinctLetters(word)
-        cipherDict = self.createChipherDict(letters)
+        while True: # until "a good mixed up" word in Rules
+            word = self.chooseWord()
+            letters = self.getDistinctLetters(word)
         
-        print("cipherDict", cipherDict)
+            rulesDict = self.createRulesDict(letters)
+            
+            wordInRules = ""
+            for letter in rulesDict:
+                wordInRules += letter
+                
+            if word != wordInRules:
+                break   
         
-        cipheredWord = self.getCipheredWord(word, cipherDict)
+        print("Rules:")
+        for letter in rulesDict:
+            print("dict", letter, rulesDict[letter])
+        print("\n")
         
+        
+        print("Guess this!")
+        cipheredWord = self.getCipheredWord(word, rulesDict)
         for cipheredLetter in cipheredWord:
             l = ""
             for num in cipheredLetter:
                 l += str(num) + " "       
             print("ciphered", l)
         
-        guessed = input('input something!: ') 
+        guessed = input('\ninput something!: ') 
         
         print("guessed", guessed)
         
