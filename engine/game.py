@@ -1,41 +1,47 @@
-from string import ascii_lowercase
+
 import random
 import string
 
 
 
-
+MAX_CIPHER_LEN = 2
+MAX_CIPHER_VAL = 10
 
 class Game():
     
-    def getChipheredWord(self, word, cipher):
+    def getCipheredWord(self, word: string, cipherDict: dict) -> list:
     
-        chipheredWord = []
+        cipheredWord = []
     
-        for w in word:
-            chipheredLetter = []
-            for num in cipher[w]:
-                chipheredLetter.append(num)   
-            chipheredWord.append(chipheredLetter)   
+        for letter in word:
+            cipheredLetter = cipherDict[letter]
+            cipheredWord.append(cipheredLetter)   
             
-        return chipheredWord
+        return cipheredWord
+    
      
-    def getChipher(self, letters):
-        ciphered = {}
+    def getChipherDict(self, letters) -> dict: # letter-chifer
+        chipherDict = {}
         
         for l in letters:
             
-            cifer = []
-            for i in range(0, 3):
-                r = random.randint(1, 10)
-                cifer.append(r)
-             
-            ciphered[l] = cifer
+            while True: # endlessly, until a unique cipher is found
+                ciferForLetter = []
+                for i in range(0, MAX_CIPHER_LEN):
+                    r = random.randint(0, MAX_CIPHER_VAL)
+                    ciferForLetter.append(r)
+                
+                # check whether cipher already exists
+                if ciferForLetter in chipherDict.values():
+                    continue    
+                 
+                chipherDict[l] = ciferForLetter
+                break;
 
+        return chipherDict
     
-        return ciphered
     
-    def getLetters(self, word):
+    def getDistinctLetters(self, word: string) -> list:
         
         distinct = {}
         for w in word:
@@ -48,24 +54,24 @@ class Game():
         return letters
     
     
-    def chooseWord(self):
+    def chooseWord(self) -> string:
         
-        return "hello"
+        return "my name is mooo"
     
     
     def start(self):
         
         word = self.chooseWord()
-        letters = self.getLetters(word)
-        cipher = self.getChipher(letters)
+        letters = self.getDistinctLetters(word)
+        cipherDict = self.getChipherDict(letters)
         
-        print("cipher", cipher)
+        print("cipherDict", cipherDict)
         
-        chipheredWord = self.getChipheredWord(word, cipher)
+        cipheredWord = self.getCipheredWord(word, cipherDict)
         
-        for chipheredLetter in chipheredWord:
+        for cipheredLetter in cipheredWord:
             l = ""
-            for num in chipheredLetter:
+            for num in cipheredLetter:
                 l += str(num) + " "       
             print("ciphered", l)
         
