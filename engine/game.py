@@ -20,7 +20,7 @@ class Game():
         return cipheredWord
     
      
-    def getChipherDict(self, letters) -> dict: # letter-chifer
+    def createChipherDict(self, letters) -> dict: # letter-chifer
         chipherDict = {}
         
         for l in letters:
@@ -63,7 +63,7 @@ class Game():
         
         word = self.chooseWord()
         letters = self.getDistinctLetters(word)
-        cipherDict = self.getChipherDict(letters)
+        cipherDict = self.createChipherDict(letters)
         
         print("cipherDict", cipherDict)
         
