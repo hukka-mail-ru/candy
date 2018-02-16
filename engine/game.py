@@ -9,6 +9,9 @@ MAX_CIPHER_VAL = 10
 
 class Game():
     
+    def __init__(self, ui):
+        self.ui = ui
+    
     def getCipheredWord(self, word: string, rulesDict: dict) -> list:
     
         cipheredWord = []
@@ -79,31 +82,17 @@ class Game():
             if word != wordInRules:
                 break   
         
-        print("Rules:")
-        for letter in rulesDict:
-            print("dict", letter, rulesDict[letter])
-        print("\n")
+        cipheredWord = self.getCipheredWord(word, rulesDict)   
+             
+             
+        self.ui.outputField(rulesDict, cipheredWord)
+                
+        guessed = self.ui.inputUserGuess()
         
-        
-        print("Guess this!")
-        cipheredWord = self.getCipheredWord(word, rulesDict)
-        for cipheredLetter in cipheredWord:
-            l = ""
-            for num in cipheredLetter:
-                l += str(num) + " "       
-            print("ciphered", l)
-        
-        guessed = input('\ninput something!: ') 
-        
-        print("guessed", guessed)
-        
+                
         if (word == guessed):
-            print("YES!")
+            self.ui.outputWin()
         else:
-            print("NO!")
+            self.ui.outputLoose()
 
-if __name__ == '__main__': # pragma: no cover
-    game = Game()
-    
-    #game.setCipher()  
-    game.start()  
+
