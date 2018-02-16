@@ -77,10 +77,15 @@ class Game():
         
         while True:
         
-            availableLevels = self.db.getAvailableLevels()
+            availableLevelIds = self.db.getAvailableLevelIds()
                   
-            level = self.ui.chooseLevel(availableLevels)        
-            self.ui.showLevelIntro()
+            levelId = self.ui.chooseLevel(availableLevelIds)  
+            
+            level = self.db.getLevel(levelId)
+                  
+            self.ui.showLevelIntro(level.getId(), level.getName())
+            
+            
             
             # create rulesDict
             # TODO: depends on Level! 

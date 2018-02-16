@@ -1,5 +1,6 @@
 import string
 import time
+import pygame
 
 class ConsoleUI():
     
@@ -12,17 +13,15 @@ class ConsoleUI():
         
         
        
-    def chooseLevel(self, availableLevels: list) -> int:
-        print("Levels: ", availableLevels)
+    def chooseLevel(self, availableLevelIds: list) -> int:
+        print("Levels: ", availableLevelIds)
         
         while True:
             levelId = input('\nChoose level: ') 
             
-            for availLev in availableLevels:
+            for availLevId in availableLevelIds:
                 
-                (availId, availName) = availLev
-                if availId == int(levelId):
-                    self.level = availLev                    
+                if availLevId == int(levelId):                  
                     return int(levelId)
                 
             print("Level is not available!\n")    
@@ -30,40 +29,45 @@ class ConsoleUI():
         return 0
     
     
-    def showLevelIntro(self):
-        
-        (id, name) = self.level
-        
+    def showLevelIntro(self, id, name):
+                    
         print("\nStarting Level {}: {}\n".format(id, name)) 
         
     
     def showField(self, rulesDict, cipheredWord):
                 
 
-        print("Rules:")
+        print("Mind the rules:")
         for letter in rulesDict:
-            print("dict", letter, rulesDict[letter])
+            print("  {} ... {} ".format(letter, rulesDict[letter]))
         print("\n")
     
-        print("Guess this!")
-        for cipheredLetter in cipheredWord:
-            l = ""
+        print("Guess this:")
+        question = "  "
+        for cipheredLetter in cipheredWord:            
             for num in cipheredLetter:
-                l += str(num) + " "       
-            print("ciphered", l)
+                question += str(num) + " "
+                                                    
+        print(question)
+        print("\n")
     
-    
+    def waitForKey(self):        
+        input("Press enter to continue")
     
     
     def inputUserGuess(self) -> string:
-        guessed = input('\ninput something!: ')         
-        print("guessed", guessed)
+        guessed = input('\nType your answer: ')         
         return guessed
     
     def outputWin(self):
-        print("You win!")
+        print("\n")
+        print(" **** You win! *****")
         print("=======================\n\n")
+        self.waitForKey()
+        print("\n\n\n")
         
     def outputLoose(self):
         print("You loose!")
         print("=======================\n\n")
+        self.waitForKey()
+        print("\n\n\n")
