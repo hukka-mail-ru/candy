@@ -19,8 +19,7 @@ class ConsoleUI():
         while True:
             levelId = input('\nChoose level: ') 
             
-            for availLevId in availableLevelIds:
-                
+            for availLevId in availableLevelIds:                
                 if availLevId == int(levelId):                  
                     return int(levelId)
                 

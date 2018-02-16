@@ -2,10 +2,10 @@
 import random
 import string
 import engine.db
+from engine.level import Level
 
 
-MAX_CIPHER_LEN = 2
-MAX_CIPHER_VAL = 10
+
 
 class Game():
     
@@ -32,8 +32,11 @@ class Game():
             
             while True: # until a unique cipher is found
                 ruleForLetter = []
-                for i in range(0, MAX_CIPHER_LEN):
-                    r = random.randint(0, MAX_CIPHER_VAL)
+                
+                cipherLen = random.randint(self.level.getMinCipherLen(), self.level.getMaxCipherLen())
+                
+                for i in range(0, cipherLen):
+                    r = random.randint(0, self.level.getMaxCipherVal())
                     ruleForLetter.append(r)
                 
                 # check whether cipher already exists
@@ -63,12 +66,22 @@ class Game():
     
     def chooseWord(self) -> string:
         
-        words = ["ant", "cat", "dog", "joy", "key", "bar"]
-        r = random.randint(0, len(words) - 1)
+        words = ["bee", "cat", "dog", "han", "fox", "pig", 
+                 "bear", "lion", "wolf",   
+                 "horse", "mouse", "tiger", 
+                 "monkey", "greesly", "kangaroo", "elephant"]
         
-        return words[r]
 
+        while True:
         
+            r = random.randint(0, len(words) - 1)
+            
+            word = words[r]
+            
+            if len(word) >= self.level.getMinWordLen() and len(word) <= self.level.getMaxWordLen():    
+                return word
+
+        return ""
             
     
     def start(self):
@@ -81,9 +94,9 @@ class Game():
                   
             levelId = self.ui.chooseLevel(availableLevelIds)  
             
-            level = self.db.getLevel(levelId)
+            self.level = self.db.getLevel(levelId)
                   
-            self.ui.showLevelIntro(level.getId(), level.getName())
+            self.ui.showLevelIntro(self.level.getId(), self.level.getName())
             
             
             
@@ -112,7 +125,7 @@ class Game():
                     
             if (word == guessed):
                 self.ui.outputWin()
-                self.db.openNextLevel(level)
+                self.db.openNextLevel(self.level)
             else:
                 self.ui.outputLoose()
 
