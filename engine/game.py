@@ -85,7 +85,7 @@ class Game():
         cipheredWord = self.getCipheredWord(word, rulesDict)   
              
              
-        self.ui.outputField(rulesDict, cipheredWord)
+        self.ui.showField(rulesDict, cipheredWord)
                 
         guessed = self.ui.inputUserGuess()
         

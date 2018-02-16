@@ -3,7 +3,7 @@ import string
 class ConsoleUI():
     
     
-    def outputField(self, rulesDict, cipheredWord):
+    def showField(self, rulesDict, cipheredWord):
 
         print("Rules:")
         for letter in rulesDict:
