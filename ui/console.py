@@ -37,15 +37,20 @@ class ConsoleUI():
                 
 
         print("Mind the rules:")
+        
         for letter in rulesDict:
-            print("  {} ... {} ".format(letter, rulesDict[letter]))
+            rule = "  " + letter + " ... "
+            for num in rulesDict[letter]:
+                rule += str(chr(168 +num)) + " "
+            print(rule)    
+                
         print("\n")
     
         print("Guess this:")
         question = "  "
         for cipheredLetter in cipheredWord:            
             for num in cipheredLetter:
-                question += str(num) + " "
+                question += str(chr(168 +num)) + " "
                                                     
         print(question)
         print("\n")
