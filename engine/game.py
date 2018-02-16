@@ -1,7 +1,7 @@
 
 import random
 import string
-
+import engine.db
 
 
 MAX_CIPHER_LEN = 2
@@ -11,6 +11,7 @@ class Game():
     
     def __init__(self, ui):
         self.ui = ui
+        self.db = engine.db.DB()
     
     def getCipheredWord(self, word: string, rulesDict: dict) -> list:
     
@@ -65,10 +66,20 @@ class Game():
         r = random.randint(0, len(words) - 1)
         
         return words[r]
-    
+
+        
+            
     
     def start(self):
         
+        self.ui.showIntro()
+        
+        availableLevels = self.db.getAvailableLevels()
+              
+        self.ui.chooseLevel(availableLevels)        
+        self.ui.showLevelIntro()
+        
+        # creage game objects
         while True: # until "a good mixed up" word in Rules
             word = self.chooseWord()
             letters = self.getDistinctLetters(word)
