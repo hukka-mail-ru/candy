@@ -9,6 +9,7 @@ MAX_CIPHER_VAL = 10
 
 class Game():
     
+    
     def __init__(self, ui):
         self.ui = ui
         self.db = engine.db.DB()
@@ -74,36 +75,40 @@ class Game():
         
         self.ui.showIntro()
         
-        availableLevels = self.db.getAvailableLevels()
-              
-        self.ui.chooseLevel(availableLevels)        
-        self.ui.showLevelIntro()
+        while True:
         
-        # creage game objects
-        while True: # until "a good mixed up" word in Rules
-            word = self.chooseWord()
-            letters = self.getDistinctLetters(word)
-        
-            rulesDict = self.createRulesDict(letters)
+            availableLevels = self.db.getAvailableLevels()
+                  
+            level = self.ui.chooseLevel(availableLevels)        
+            self.ui.showLevelIntro()
             
-            wordInRules = ""
-            for letter in rulesDict:
-                wordInRules += letter
+            # create rulesDict
+            # TODO: depends on Level! 
+            while True: # until "a good mixed up" word in Rules
+                word = self.chooseWord()
+                letters = self.getDistinctLetters(word)
+            
+                rulesDict = self.createRulesDict(letters)
                 
-            if word != wordInRules:
-                break   
-        
-        cipheredWord = self.getCipheredWord(word, rulesDict)   
-             
-             
-        self.ui.showField(rulesDict, cipheredWord)
-                
-        guessed = self.ui.inputUserGuess()
-        
-                
-        if (word == guessed):
-            self.ui.outputWin()
-        else:
-            self.ui.outputLoose()
+                wordInRules = ""
+                for letter in rulesDict:
+                    wordInRules += letter
+                    
+                if word != wordInRules:
+                    break   
+            
+            cipheredWord = self.getCipheredWord(word, rulesDict)   
+                 
+                 
+            self.ui.showField(rulesDict, cipheredWord)
+                    
+            guessed = self.ui.inputUserGuess()
+            
+                    
+            if (word == guessed):
+                self.ui.outputWin()
+                self.db.openNextLevel(level)
+            else:
+                self.ui.outputLoose()
 
 

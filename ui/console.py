@@ -12,7 +12,7 @@ class ConsoleUI():
         
         
        
-    def chooseLevel(self, availableLevels: list):
+    def chooseLevel(self, availableLevels: list) -> int:
         print("Levels: ", availableLevels)
         
         while True:
@@ -23,7 +23,7 @@ class ConsoleUI():
                 (availId, availName) = availLev
                 if availId == int(levelId):
                     self.level = availLev                    
-                    return
+                    return int(levelId)
                 
             print("Level is not available!\n")    
         
@@ -62,6 +62,8 @@ class ConsoleUI():
     
     def outputWin(self):
         print("You win!")
+        print("=======================\n\n")
         
     def outputLoose(self):
         print("You loose!")
+        print("=======================\n\n")
