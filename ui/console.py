@@ -76,9 +76,12 @@ class ConsoleUI():
         guessed = input('\nType your answer: ')         
         return guessed
     
-    def outputWin(self):
+    def outputWin(self, score: int, isHighScore: bool):
         print("=======================")
         print(" **** YOU WIN! *****")
+        print(" score: ",  score)
+        if isHighScore:
+            print(" NEW RECORD! ")
         print("=======================\n\n")
         
     def outputLoose(self):

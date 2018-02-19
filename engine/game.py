@@ -4,6 +4,7 @@ import string
 import engine.db
 from engine.level import Level
 import common
+import time
 
 
 
@@ -13,7 +14,7 @@ class Game():
     
     def __init__(self, ui):
         self.ui = ui
-        self.db = engine.db.DB()
+        self.db = engine.db.DB()        
     
     def getCipheredWord(self, word: string, rulesDict: dict) -> list:
     
@@ -86,9 +87,11 @@ class Game():
             
     
     
-    def openWin(self):
+    def openWin(self, score: int):
         
-        self.ui.outputWin()
+        isHighScore = self.db.isHighScore(self.level, score)
+                    
+        self.ui.outputWin(score, isHighScore)
          
         nextLevelId = self.db.openNextLevel(self.level)
         
@@ -142,11 +145,18 @@ class Game():
         cipheredWord = self.getCipheredWord(word, rulesDict)   
                           
         self.ui.showField(rulesDict, cipheredWord)
-                
+        
+        
+        start = time.time()                
         guessed = self.ui.inputUserGuess()            
+        end = time.time()
+        
+        
+        
+        score = self.level.Id * len(word) / (end - start) * 1000      
                 
         if (word == guessed):
-            self.openWin()            
+            self.openWin(int(score))            
         else:            
             self.openLoose()  
     
