@@ -5,16 +5,29 @@ import engine.db
 from engine.level import Level
 import common
 import time
+from reportlab.graphics.barcode.eanbc import words
 
 
 
 
 class Game():
-    
+       
     
     def __init__(self, ui):
         self.ui = ui
-        self.db = engine.db.DB()        
+        self.db = engine.db.DB()   
+        self.readWordsFromFile()
+        
+        
+    def readWordsFromFile(self):
+        
+        self.words = [] 
+        with open('engine/words.txt','r') as f:
+            for line in f:
+                for word in line.split():
+                    self.words.append(word)      
+                    
+                    
     
     def getCipheredWord(self, word: string, rulesDict: dict) -> list:
     
@@ -68,22 +81,24 @@ class Game():
     
     def chooseWord(self) -> string:
         
-        words = ["bee", "cat", "dog", "han", "fox", "pig", 
-                 "bear", "lion", "wolf",   
-                 "horse", "mouse", "tiger", 
-                 "monkey", "greesly", "kangaroo", "elephant"]
+        random.seed()
         
-
-        while True:
+        print(self.words)
         
-            r = random.randint(0, len(words) - 1)
-            
-            word = words[r]
-            
-            if len(word) >= self.level.MinWordLen and len(word) <= self.level.MaxWordLen:    
-                return word
+        wordsForThisLevel = []
+        for word in self.words:
+            if len(word) >= self.level.MinWordLen and len(word) <= self.level.MaxWordLen:
+                wordsForThisLevel.append(word)
+        
+        if len(wordsForThisLevel) < 1:
+            return ""       
+        
+        r = random.randint(0, len(wordsForThisLevel) - 1)
+        word = wordsForThisLevel[r]
+        self.words.remove(word)   
+              
+        return word
 
-        return ""
             
     
     
@@ -128,19 +143,16 @@ class Game():
         self.ui.showLevelIntro(self.level.Id, self.level.Name)
                                 
         # create rulesDict
-        # TODO: depends on Level! 
-        while True: # until "a good mixed up" word in Rules
-            word = self.chooseWord()
-            letters = self.getDistinctLetters(word)
+        word = self.chooseWord()
         
-            rulesDict = self.createRulesDict(letters)
-            
-            wordInRules = ""
-            for letter in rulesDict:
-                wordInRules += letter
-                
-            if word != wordInRules:
-                break   
+        if(word == ""):
+            self.readWordsFromFile()
+            word = self.chooseWord()
+
+        
+        letters = self.getDistinctLetters(word)    
+        rulesDict = self.createRulesDict(letters)
+        
         
         cipheredWord = self.getCipheredWord(word, rulesDict)   
                           

@@ -1,0 +1,4 @@
+bee cat dog
+bear lion wolf   
+horse mouse tiger 
+monkey greesly kangaroo elephant
