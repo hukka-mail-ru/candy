@@ -34,10 +34,10 @@ class Game():
             while True: # until a unique cipher is found
                 ruleForLetter = []
                 
-                cipherLen = random.randint(self.level.getMinCipherLen(), self.level.getMaxCipherLen())
+                cipherLen = random.randint(self.level.MinCipherLen, self.level.MaxCipherLen)
                 
                 for i in range(0, cipherLen):
-                    r = random.randint(0, self.level.getMaxCipherVal())
+                    r = random.randint(0, self.level.MaxCipherVal)
                     ruleForLetter.append(r)
                 
                 # check whether cipher already exists
@@ -79,7 +79,7 @@ class Game():
             
             word = words[r]
             
-            if len(word) >= self.level.getMinWordLen() and len(word) <= self.level.getMaxWordLen():    
+            if len(word) >= self.level.MinWordLen and len(word) <= self.level.MaxWordLen:    
                 return word
 
         return ""
@@ -122,7 +122,7 @@ class Game():
     
     def openLevel(self):
         
-        self.ui.showLevelIntro(self.level.getId(), self.level.getName())
+        self.ui.showLevelIntro(self.level.Id, self.level.Name)
                                 
         # create rulesDict
         # TODO: depends on Level! 

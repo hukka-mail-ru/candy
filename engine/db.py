@@ -36,15 +36,15 @@ class DB():
         c = self.conn.cursor()
         
         nextLevelId = 0
-        c.execute("SELECT COUNT(*) FROM levels WHERE Id = ?", (level.getId() + 1,))        
+        c.execute("SELECT COUNT(*) FROM levels WHERE Id = ?", (level.Id + 1,))        
         if c.fetchone() == (1,):
         
-            c.execute("SELECT Id FROM levels WHERE Id = ?", (level.getId() + 1,))
+            c.execute("SELECT Id FROM levels WHERE Id = ?", (level.Id + 1,))
         
             nextLevelId = c.fetchone()[0]
                    
-        
-        c.execute("UPDATE levels SET available = 1 WHERE Id = ?", (level.getId() + 1,))   
+
+        c.execute("UPDATE levels SET available = 1 WHERE Id = ?", (level.Id + 1,))   
         
         self.conn.commit()
         
