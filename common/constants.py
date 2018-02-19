@@ -1,0 +1,3 @@
+NEXT_LEVEL = 1
+RETRY = 2 
+MAIN_MENU = 3

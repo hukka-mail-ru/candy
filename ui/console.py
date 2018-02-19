@@ -1,6 +1,8 @@
 import string
 import time
 import pygame
+import common
+import sys
 
 class ConsoleUI():
     
@@ -11,17 +13,30 @@ class ConsoleUI():
         print("=======================\n\n")
         time.sleep(1)
         
-        
+    def showOutro(self):
+        print("=======================\n\n")
+        print("BYE!\n\n")
+        print("=======================\n\n")
+        time.sleep(1)
+              
        
-    def chooseLevel(self, availableLevelIds: list) -> int:
-        print("Levels: ", availableLevelIds)
+    def showMainMenu(self, availableLevelIds: list) -> int:
         
+        print("\n====  MAIN MENU  =======\n")
+        
+        print("Levels: ", availableLevelIds)
+        print("[E] to exit ")
+         
         while True:
-            levelId = input('\nChoose level: ') 
+            choise = input('\nChoose level: ') 
+            
+            if(choise == "e" or choise == "E"):
+                self.showOutro()
+                sys.exit()
             
             for availLevId in availableLevelIds:                
-                if availLevId == int(levelId):                  
-                    return int(levelId)
+                if availLevId == int(choise):                  
+                    return int(choise)
                 
             print("Level is not available!\n")    
         
@@ -29,8 +44,8 @@ class ConsoleUI():
     
     
     def showLevelIntro(self, id, name):
-                    
-        print("\nStarting Level {}: {}\n".format(id, name)) 
+              
+        print("\n===== LEVEL {}: {} ======= \n".format(id, name)) 
         
     
     def showField(self, rulesDict, cipheredWord):
@@ -55,8 +70,6 @@ class ConsoleUI():
         print(question)
         print("\n")
     
-    def waitForKey(self):        
-        input("Press enter to continue")
     
     
     def inputUserGuess(self) -> string:
@@ -64,14 +77,48 @@ class ConsoleUI():
         return guessed
     
     def outputWin(self):
-        print("\n")
-        print(" **** You win! *****")
+        print("=======================")
+        print(" **** YOU WIN! *****")
         print("=======================\n\n")
-        self.waitForKey()
-        print("\n\n\n")
         
     def outputLoose(self):
-        print("You loose!")
+        print("=======================")
+        print(" **** You loose! *****")
         print("=======================\n\n")
-        self.waitForKey()
-        print("\n\n\n")
+
+     
+     
+    def outputNextLevel(self):
+        print("Press [N] to next level!") 
+        
+    def outputRetry(self):
+        print("Press [R] to retry") 
+
+    def outputMainMenu(self):
+        print("Press [M] to main menu")         
+        
+    def inputAtFinish(self, options):
+    
+        if(options == common.NEXT_LEVEL):
+            self.outputNextLevel()
+            self.outputRetry()
+            self.outputMainMenu()
+            
+        elif(options == common.RETRY):
+            self.outputRetry()
+            self.outputMainMenu()           
+            
+        elif(options == common.MAIN_MENU):   
+            self.outputMainMenu()           
+            
+                         
+        choise = input("Input your choise: ")
+        
+        if(choise == "n" or choise == "N"):
+            return common.NEXT_LEVEL
+                
+        elif(choise == "r" or choise == "R"):     
+            return common.RETRY
+                
+        elif(choise == "m" or choise == "M"):
+            return common.MAIN_MENU

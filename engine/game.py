@@ -3,6 +3,7 @@ import random
 import string
 import engine.db
 from engine.level import Level
+import common
 
 
 
@@ -84,49 +85,89 @@ class Game():
         return ""
             
     
+    
+    def openWin(self):
+        
+        self.ui.outputWin()
+         
+        nextLevelId = self.db.openNextLevel(self.level)
+        
+        
+        if(nextLevelId):
+            atFinish = self.ui.inputAtFinish(common.NEXT_LEVEL)
+        else: 
+            atFinish = self.ui.inputAtFinish(common.MAIN_MENU)
+            
+        
+        if (atFinish == common.NEXT_LEVEL):
+            self.level = self.db.getLevel(nextLevelId) 
+            self.openLevel()
+        elif (atFinish == common.RETRY):
+            self.openLevel()
+        elif (atFinish == common.MAIN_MENU):
+            self.openMainMenu()   
+     
+     
+    def openLoose(self): 
+        
+        self.ui.outputLoose()
+        
+        atFinish = self.ui.inputAtFinish(common.RETRY)   
+        
+        if (atFinish == common.RETRY):
+            self.openLevel()
+        elif (atFinish == common.MAIN_MENU):
+            self.openMainMenu()   
+    
+    
+    def openLevel(self):
+        
+        self.ui.showLevelIntro(self.level.getId(), self.level.getName())
+                                
+        # create rulesDict
+        # TODO: depends on Level! 
+        while True: # until "a good mixed up" word in Rules
+            word = self.chooseWord()
+            letters = self.getDistinctLetters(word)
+        
+            rulesDict = self.createRulesDict(letters)
+            
+            wordInRules = ""
+            for letter in rulesDict:
+                wordInRules += letter
+                
+            if word != wordInRules:
+                break   
+        
+        cipheredWord = self.getCipheredWord(word, rulesDict)   
+                          
+        self.ui.showField(rulesDict, cipheredWord)
+                
+        guessed = self.ui.inputUserGuess()            
+                
+        if (word == guessed):
+            self.openWin()            
+        else:            
+            self.openLoose()  
+    
+    
+    def openMainMenu(self):
+        
+        availableLevelIds = self.db.getAvailableLevelIds()
+              
+        levelId = self.ui.showMainMenu(availableLevelIds)  
+        
+        self.level = self.db.getLevel(levelId)   
+        
+        self.openLevel()
+    
+    
     def start(self):
         
         self.ui.showIntro()
         
-        while True:
-        
-            availableLevelIds = self.db.getAvailableLevelIds()
+        self.openMainMenu()
                   
-            levelId = self.ui.chooseLevel(availableLevelIds)  
-            
-            self.level = self.db.getLevel(levelId)
-                  
-            self.ui.showLevelIntro(self.level.getId(), self.level.getName())
-            
-            
-            
-            # create rulesDict
-            # TODO: depends on Level! 
-            while True: # until "a good mixed up" word in Rules
-                word = self.chooseWord()
-                letters = self.getDistinctLetters(word)
-            
-                rulesDict = self.createRulesDict(letters)
-                
-                wordInRules = ""
-                for letter in rulesDict:
-                    wordInRules += letter
-                    
-                if word != wordInRules:
-                    break   
-            
-            cipheredWord = self.getCipheredWord(word, rulesDict)   
-                 
-                 
-            self.ui.showField(rulesDict, cipheredWord)
-                    
-            guessed = self.ui.inputUserGuess()
-            
-                    
-            if (word == guessed):
-                self.ui.outputWin()
-                self.db.openNextLevel(self.level)
-            else:
-                self.ui.outputLoose()
+ 
 
 

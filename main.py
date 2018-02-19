@@ -3,7 +3,6 @@ import ui
 
 
 
-#ui = ui.GraphicsUI()
 
 consoleUI = ui.ConsoleUI()
 
