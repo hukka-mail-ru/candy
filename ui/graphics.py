@@ -15,5 +15,7 @@ class GraphicsUI():
         time.sleep(1)
         
     def showMainMenu(self, availableLevelIds: list) -> int:
-        pygame.draw.circle(self.screen, (255,255,255), (4, 4), 20) 
+        pygame.draw.rect(self.screen, (155,155,255), (4, 4, 100, 100))
+        pygame.draw.rect(self.screen, (0,0,0), (4, 4, 100, 100), 2)
+      #  pygame.draw.circle(self.screen, (255,255,255), (4, 4), 20) 
         pygame.display.flip()
