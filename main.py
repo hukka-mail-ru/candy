@@ -5,8 +5,9 @@ import ui
 
 
 consoleUI = ui.ConsoleUI()
+graphicsUI = ui.GraphicsUI()
 
-game = engine.Game(consoleUI)
+game = engine.Game(graphicsUI)
 
 game.start()  
 
