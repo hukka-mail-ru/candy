@@ -8,18 +8,18 @@ class DB():
         self.conn = sqlite3.connect('engine/candy.sqlite')
                 
     
-    def getAvailableLevelIds(self) -> list:
+    def getLevels(self) -> list:
         
         c = self.conn.cursor()
         
-        c.execute("SELECT Id FROM levels WHERE available > 0")
+        c.execute("SELECT * FROM levels")
         
-        levelIds = []
+        levels = []
         for row in c.fetchall():                
-            (levelId, ) = row
-            levelIds.append(levelId)
+            level = Level(row)
+            levels.append(level)
         
-        return levelIds
+        return levels
 
 
     def getLevel(self, levelId: int) -> Level:
@@ -27,7 +27,7 @@ class DB():
         c = self.conn.cursor()
         
         c.execute("SELECT * FROM levels WHERE Id = ?", (levelId,))
-        
+
         return Level(c.fetchone())
     
 

@@ -173,12 +173,10 @@ class Game():
     
     def openMainMenu(self):
         
-        availableLevelIds = self.db.getAvailableLevelIds()
+        levels = self.db.getLevels()
               
-        levelId = self.ui.showMainMenu(availableLevelIds)  
-        
-        self.level = self.db.getLevel(levelId)   
-        
+        self.level = self.ui.showMainMenu(levels)  
+                
         self.openLevel()
     
     

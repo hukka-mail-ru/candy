@@ -1,14 +1,15 @@
 import string
 import pygame
 import time
-from ui.menu import Menu
+import engine
+import ui.mainmenu
 
 class GraphicsUI():
     
     def  __init__(self):
         pygame.init()
         self.screen = pygame.display.set_mode((480, 500))
-        self.menu = Menu()
+        self.mainMenu = ui.mainmenu.MainMenu()
 
     def showIntro(self):
         img = pygame.image.load('ui/img/intro.png')
@@ -16,8 +17,8 @@ class GraphicsUI():
         pygame.display.flip()
         time.sleep(0.2)
         
-    def showMainMenu(self, availableLevelIds: list) -> int:
+    def showMainMenu(self, levels: list) -> engine.Level:
 
-        self.menu.show(availableLevelIds)
-        return self.menu.waitForInput()
+        self.mainMenu.show(levels)
+        return self.mainMenu.waitForInput()
         

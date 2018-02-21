@@ -3,7 +3,7 @@ import sys
 from ui.button import Button  
 from ui.button import LevelButton 
 
-class Menu():
+class MainMenu():
 
     levelButtons = []
     buttons = []
@@ -13,11 +13,13 @@ class Menu():
         pygame.init()
         screen = pygame.display.set_mode((480, 500))
         
-        for i in range (0,5):
+        i = 0
+        for availableLevelId in availableLevelIds:
             b = LevelButton(screen, 'level', 60*i, 150) 
-            b.setLevel(i)     
+            b.setLevel(availableLevelId)     
             self.levelButtons.append(b)
             self.buttons.append(b)
+            i += 1
         
         self.retryButton = Button(screen, 'retry', 50, 50)
         self.exitButton = Button(screen, 'exit', 200, 300)
@@ -38,7 +40,6 @@ class Menu():
                         b.setPressed(pygame.mouse.get_pos())
                             
                 if event.type == pygame.MOUSEBUTTONUP and event.button == 1:
-
                     
                     if self.retryButton.isPressed():
                         print("retry")

@@ -3,6 +3,7 @@ import time
 import pygame
 import common
 import sys
+import engine 
 
 class ConsoleUI():
     
@@ -20,11 +21,13 @@ class ConsoleUI():
         time.sleep(1)
               
        
-    def showMainMenu(self, availableLevelIds: list) -> int:
+    def showMainMenu(self, levels: list) -> engine.Level:
         
         print("\n====  MAIN MENU  =======\n")
         
-        print("Levels: ", availableLevelIds)
+        for level in levels:
+            if level.Available:     
+                print("Available level: ", level.Id, level.Name)
         print("[E] to exit ")
          
         while True:
@@ -34,9 +37,9 @@ class ConsoleUI():
                 self.showOutro()
                 sys.exit()
             
-            for availLevId in availableLevelIds:                
-                if availLevId == int(choise):                  
-                    return int(choise)
+            for level in levels:                
+                if level.Available and level.Id == int(choise):                  
+                    return level
                 
             print("Level is not available!\n")    
         
