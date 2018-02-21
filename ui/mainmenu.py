@@ -30,10 +30,7 @@ class MainMenu():
         
         pygame.display.flip()
 
-  
 
-    def waitForInput(self) -> engine.Level:
-    
         while True:
             for event in pygame.event.get():
                                 
@@ -50,8 +47,8 @@ class MainMenu():
                         sys.exit()
 
                     for levelButton in self.levelButtons:                        
-                        if levelButton.isPressed():
-                            return levelButton.getLevel()
+                        if levelButton.isPressed():  
+                            engine.GlobalGame.startLevel(levelButton.getLevel())
 
  # pragma: no cover
 if __name__ == '__main__': # pragma: no cover

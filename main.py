@@ -7,7 +7,8 @@ import ui
 consoleUI = ui.ConsoleUI()
 graphicsUI = ui.GraphicsUI()
 
-game = engine.Game(graphicsUI)
+engine.GlobalGame.setUI(graphicsUI)
+engine.GlobalGame.
 
-game.start()  
+engine.GlobalGame.start()  
 

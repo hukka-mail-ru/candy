@@ -12,14 +12,15 @@ from reportlab.graphics.barcode.eanbc import words
 
 class Game():
        
-    
-    def __init__(self, ui):
+    def setUI(self, ui):    
         self.ui = ui
+    
+    def __init__(self):
         self.db = engine.db.DB()   
-        self.readWordsFromFile()
+        self.__readWordsFromFile__()
         
         
-    def readWordsFromFile(self):
+    def __readWordsFromFile__(self):
         
         self.words = [] 
         with open('engine/words.txt','r') as f:
@@ -29,7 +30,7 @@ class Game():
                     
                     
     
-    def getCipheredWord(self, word: string, rulesDict: dict) -> list:
+    def __getCipheredWord__(self, word: string, rulesDict: dict) -> list:
     
         cipheredWord = []
     
@@ -40,7 +41,7 @@ class Game():
         return cipheredWord
     
      
-    def createRulesDict(self, letters) -> dict: # letter-chifer
+    def __createRulesDict__(self, letters) -> dict: # letter-chifer
         rulesDict = {}
         
         for l in letters:
@@ -64,7 +65,7 @@ class Game():
         return rulesDict
     
     
-    def getDistinctLetters(self, word: string) -> list:
+    def __getDistinctLetters__(self, word: string) -> list:
         
         
         distinct = {}
@@ -79,7 +80,7 @@ class Game():
         return letters
     
     
-    def chooseWord(self) -> string:
+    def __chooseWord__(self) -> string:
         
         random.seed()
         
@@ -100,7 +101,7 @@ class Game():
             
     
     
-    def openWin(self, score: int):
+    def __openWin__(self, score: int):
         
         isHighScore = self.db.isHighScore(self.level, score)
                     
@@ -124,7 +125,7 @@ class Game():
             self.openMainMenu()   
      
      
-    def openLoose(self): 
+    def __openLoose__(self): 
         
         self.ui.outputLoose()
         
@@ -136,23 +137,28 @@ class Game():
             self.openMainMenu()   
     
     
-    def openLevel(self):
+    def startLevel(self, level):
+        
+        print("Starting level ", level.Id, level.Name)
+
+        self.level = level
+        
         
         self.ui.showLevelIntro(self.level.Id, self.level.Name)
                                 
         # create rulesDict
-        word = self.chooseWord()
+        word = self.__chooseWord__()
         
         if(word == ""):
-            self.readWordsFromFile()
-            word = self.chooseWord()
+            self.__readWordsFromFile__()
+            word = self.__chooseWord__()
 
         
-        letters = self.getDistinctLetters(word)    
-        rulesDict = self.createRulesDict(letters)
+        letters = self.__getDistinctLetters__(word)    
+        rulesDict = self.__createRulesDict__(letters)
         
         
-        cipheredWord = self.getCipheredWord(word, rulesDict)   
+        cipheredWord = self.__getCipheredWord__(word, rulesDict)   
                           
         self.ui.showField(rulesDict, cipheredWord)
         
@@ -166,18 +172,18 @@ class Game():
         score = self.level.Id * len(word) / (end - start) * 1000      
                 
         if (word == guessed):
-            self.openWin(int(score))            
+            self.__openWin__(int(score))            
         else:            
-            self.openLoose()  
+            self.__openLoose__()  
     
     
     def openMainMenu(self):
         
         levels = self.db.getLevels()
               
-        self.level = self.ui.showMainMenu(levels)  
-                
-        self.openLevel()
+        self.ui.showMainMenu(levels)  
+     
+
     
     
     def start(self):

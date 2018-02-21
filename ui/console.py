@@ -21,7 +21,7 @@ class ConsoleUI():
         time.sleep(1)
               
        
-    def showMainMenu(self, levels: list) -> engine.Level:
+    def showMainMenu(self, levels: list):
         
         print("\n====  MAIN MENU  =======\n")
         
@@ -39,11 +39,10 @@ class ConsoleUI():
             
             for level in levels:                
                 if level.Available and level.Id == int(choise):                  
-                    return level
+                    engine.GlobalGame.startLevel(level)
                 
             print("Level is not available!\n")    
-        
-        return 0
+
     
     
     def showLevelIntro(self, id, name):
