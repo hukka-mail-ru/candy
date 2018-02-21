@@ -83,8 +83,6 @@ class Game():
         
         random.seed()
         
-        print(self.words)
-        
         wordsForThisLevel = []
         for word in self.words:
             if len(word) >= self.level.MinWordLen and len(word) <= self.level.MaxWordLen:
