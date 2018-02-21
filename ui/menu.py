@@ -14,13 +14,13 @@ class Menu():
         screen = pygame.display.set_mode((480, 500))
         
         for i in range (0,5):
-            b = LevelButton(screen, 'ui/img/level.png', 60*i, 150) 
+            b = LevelButton(screen, 'level', 60*i, 150) 
             b.setLevel(i)     
             self.levelButtons.append(b)
             self.buttons.append(b)
         
-        self.retryButton = Button(screen, 'ui/img/retry.png', 50, 50)
-        self.exitButton = Button(screen, 'ui/img/exit.png', 200, 300)
+        self.retryButton = Button(screen, 'retry', 50, 50)
+        self.exitButton = Button(screen, 'exit', 200, 300)
         self.buttons.append(self.retryButton)
         self.buttons.append(self.exitButton)
         

@@ -5,11 +5,11 @@ class Button():
 
     def __init__(self, screen, file, x, y):
         
-        self.b = screen.blit( pygame.image.load(file), (x,y) )
+        self.b = screen.blit( pygame.image.load("ui/img/" + file + ".png"), (x,y) )
         self.x = x
         self.y = y
-        self.screen = screen
         self.file = file
+        self.screen = screen
         self.pressed = False
 
     def setPressed(self, pos):
@@ -18,7 +18,7 @@ class Button():
             
             self.pressed = True 
             
-            self.b = self.screen.blit( pygame.image.load('ui/img/exit.png'), (self.x,self.y) )
+            self.b = self.screen.blit( pygame.image.load("ui/img/" + self.file + "_pressed.png"), (self.x,self.y) )
             pygame.display.flip()
 
 
@@ -26,7 +26,7 @@ class Button():
         
         if self.pressed:  
             
-            self.b = self.screen.blit( pygame.image.load(self.file), (self.x,self.y) )
+            self.b = self.screen.blit( pygame.image.load("ui/img/" + self.file + ".png"), (self.x,self.y) )
             pygame.display.flip()
             
             self.pressed = False
