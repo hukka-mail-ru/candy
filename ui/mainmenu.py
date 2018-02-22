@@ -5,7 +5,6 @@ import engine
 
 class MainMenu():
 
-    levelButtons = []
     buttons = []
 
     def __init__(self, screen):
@@ -18,14 +17,11 @@ class MainMenu():
             if (level.Available):
                 b = ui.LevelButton(self.screen, 'level', 60*i, 150) 
                 b.setLevel(level)     
-                self.levelButtons.append(b)
                 self.buttons.append(b)
                 i += 1
         
-        self.retryButton = ui.Button(self.screen, 'retry', 50, 50)
-        self.exitButton = ui.Button(self.screen, 'exit', 200, 300)
-        self.buttons.append(self.retryButton)
-        self.buttons.append(self.exitButton)
+        self.buttons.append(ui.Button(self.screen, 'retry', 50, 50))
+        self.buttons.append(ui.Button(self.screen, 'exit', 200, 300))
         
         pygame.display.flip()
 
@@ -39,15 +35,14 @@ class MainMenu():
                             
                 if event.type == pygame.MOUSEBUTTONUP and event.button == 1:
                     
-                    if self.retryButton.isPressed():
-                        print("retry")
-                        
-                    if self.exitButton.isPressed():
-                        sys.exit()
-
-                    for levelButton in self.levelButtons:                        
-                        if levelButton.isPressed():  
-                            engine.GlobalGame.startLevel(levelButton.getLevel())
+                    for button in self.buttons:                    
+                        if button.isPressed():                            
+                            if button.getName() == "retry":
+                                print("retry")
+                            elif button.getName() == "exit":    
+                                sys.exit()
+                            elif button.getName() == "level":   
+                                engine.GlobalGame.startLevel(button.getLevel())
 
 # pragma: no cover
 if __name__ == '__main__': # pragma: no cover
