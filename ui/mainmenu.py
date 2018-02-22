@@ -1,7 +1,6 @@
 import pygame
 import sys
-from ui.button import Button  
-from ui.button import LevelButton 
+import ui
 import engine
 
 class MainMenu():
@@ -17,14 +16,14 @@ class MainMenu():
         i = 0
         for level in levels:
             if (level.Available):
-                b = LevelButton(self.screen, 'level', 60*i, 150) 
+                b = ui.LevelButton(self.screen, 'level', 60*i, 150) 
                 b.setLevel(level)     
                 self.levelButtons.append(b)
                 self.buttons.append(b)
                 i += 1
         
-        self.retryButton = Button(self.screen, 'retry', 50, 50)
-        self.exitButton = Button(self.screen, 'exit', 200, 300)
+        self.retryButton = ui.Button(self.screen, 'retry', 50, 50)
+        self.exitButton = ui.Button(self.screen, 'exit', 200, 300)
         self.buttons.append(self.retryButton)
         self.buttons.append(self.exitButton)
         
@@ -50,13 +49,10 @@ class MainMenu():
                         if levelButton.isPressed():  
                             engine.GlobalGame.startLevel(levelButton.getLevel())
 
- # pragma: no cover
+# pragma: no cover
 if __name__ == '__main__': # pragma: no cover
 
     
     w = MainMenu()
     w.show()
     w.waitForInput()
-
-
-   

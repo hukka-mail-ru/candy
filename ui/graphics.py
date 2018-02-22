@@ -18,10 +18,9 @@ class GraphicsUI():
         pygame.display.flip()
         time.sleep(0.2)
         
-    def showMainMenu(self, levels: list) -> engine.Level:
+    def showMainMenu(self, levels: list):
         self.screen.fill((0,0,0))
         self.mainMenu.show(levels)
-        return self.mainMenu.waitForInput()
         
         
     def showLevelIntro(self, id, name):

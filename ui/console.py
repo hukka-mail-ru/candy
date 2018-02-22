@@ -1,6 +1,5 @@
 import string
 import time
-import pygame
 import common
 import sys
 import engine 

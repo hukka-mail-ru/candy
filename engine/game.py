@@ -2,22 +2,67 @@
 import random
 import string
 import engine.db
-from engine.level import Level
 import common
 import time
-from reportlab.graphics.barcode.eanbc import words
 
 
 
 
 class Game():
-       
-    def setUI(self, ui):    
-        self.ui = ui
     
     def __init__(self):
         self.db = engine.db.DB()   
         self.__readWordsFromFile__()
+       
+    def setUI(self, ui):    
+        self.ui = ui
+    
+        
+    def start(self):
+        
+        self.ui.showIntro()
+        
+        self.__openMainMenu__()
+                  
+    
+    def startLevel(self, level):
+        
+        print("Starting level ", level.Id, level.Name)
+
+        self.level = level
+        
+        
+        self.ui.showLevelIntro(self.level.Id, self.level.Name)
+                                
+        # create rulesDict
+        word = self.__chooseWord__()
+        
+        if(word == ""):
+            self.__readWordsFromFile__()
+            word = self.__chooseWord__()
+
+        
+        letters = self.__getDistinctLetters__(word)    
+        rulesDict = self.__createRulesDict__(letters)
+        
+        
+        cipheredWord = self.__getCipheredWord__(word, rulesDict)   
+                          
+        self.ui.showField(rulesDict, cipheredWord)
+        
+        
+        start = time.time()                
+        guessed = self.ui.inputUserGuess()            
+        end = time.time()
+        
+        
+        
+        score = self.level.Id * len(word) / (end - start) * 1000      
+                
+        if (word == guessed):
+            self.__openWin__(int(score))            
+        else:            
+            self.__openLoose__()  
         
         
     def __readWordsFromFile__(self):
@@ -122,7 +167,7 @@ class Game():
         elif (atFinish == common.RETRY):
             self.openLevel()
         elif (atFinish == common.MAIN_MENU):
-            self.openMainMenu()   
+            self.__openMainMenu__()   
      
      
     def __openLoose__(self): 
@@ -134,50 +179,13 @@ class Game():
         if (atFinish == common.RETRY):
             self.openLevel()
         elif (atFinish == common.MAIN_MENU):
-            self.openMainMenu()   
+            self.__openMainMenu__()   
     
     
-    def startLevel(self, level):
-        
-        print("Starting level ", level.Id, level.Name)
 
-        self.level = level
-        
-        
-        self.ui.showLevelIntro(self.level.Id, self.level.Name)
-                                
-        # create rulesDict
-        word = self.__chooseWord__()
-        
-        if(word == ""):
-            self.__readWordsFromFile__()
-            word = self.__chooseWord__()
-
-        
-        letters = self.__getDistinctLetters__(word)    
-        rulesDict = self.__createRulesDict__(letters)
-        
-        
-        cipheredWord = self.__getCipheredWord__(word, rulesDict)   
-                          
-        self.ui.showField(rulesDict, cipheredWord)
-        
-        
-        start = time.time()                
-        guessed = self.ui.inputUserGuess()            
-        end = time.time()
-        
-        
-        
-        score = self.level.Id * len(word) / (end - start) * 1000      
-                
-        if (word == guessed):
-            self.__openWin__(int(score))            
-        else:            
-            self.__openLoose__()  
     
     
-    def openMainMenu(self):
+    def __openMainMenu__(self):
         
         levels = self.db.getLevels()
               
@@ -185,13 +193,7 @@ class Game():
      
 
     
-    
-    def start(self):
-        
-        self.ui.showIntro()
-        
-        self.openMainMenu()
-                  
+
  
 
 
