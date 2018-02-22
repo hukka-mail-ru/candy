@@ -12,7 +12,7 @@ class Game():
     
     def __init__(self):
         self.db = engine.db.DB()   
-        self.__readWordsFromFile__()
+        self._readWordsFromFile()
        
     def setUI(self, ui):    
         self.ui = ui
@@ -22,7 +22,7 @@ class Game():
         
         self.ui.showIntro()
         
-        self.__openMainMenu__()
+        self._openMainMenu()
                   
     
     def startLevel(self, level):
@@ -35,18 +35,18 @@ class Game():
         self.ui.showLevelIntro(self.level.Id, self.level.Name)
                                 
         # create rulesDict
-        word = self.__chooseWord__()
+        word = self._chooseWord()
         
         if(word == ""):
-            self.__readWordsFromFile__()
-            word = self.__chooseWord__()
+            self._readWordsFromFile()
+            word = self._chooseWord()
 
         
-        letters = self.__getDistinctLetters__(word)    
-        rulesDict = self.__createRulesDict__(letters)
+        letters = self._getDistinctLetters(word)    
+        rulesDict = self._createRulesDict(letters)
         
         
-        cipheredWord = self.__getCipheredWord__(word, rulesDict)   
+        cipheredWord = self._getCipheredWord(word, rulesDict)   
                           
         self.ui.showField(rulesDict, cipheredWord)
         
@@ -60,12 +60,12 @@ class Game():
         score = self.level.Id * len(word) / (end - start) * 1000      
                 
         if (word == guessed):
-            self.__openWin__(int(score))            
+            self._openWin(int(score))            
         else:            
-            self.__openLoose__()  
+            self._openLoose()  
         
         
-    def __readWordsFromFile__(self):
+    def _readWordsFromFile(self):
         
         self.words = [] 
         with open('engine/words.txt','r') as f:
@@ -75,7 +75,7 @@ class Game():
                     
                     
     
-    def __getCipheredWord__(self, word: string, rulesDict: dict) -> list:
+    def _getCipheredWord(self, word: string, rulesDict: dict) -> list:
     
         cipheredWord = []
     
@@ -86,7 +86,7 @@ class Game():
         return cipheredWord
     
      
-    def __createRulesDict__(self, letters) -> dict: # letter-chifer
+    def _createRulesDict(self, letters) -> dict: # letter-chifer
         rulesDict = {}
         
         for l in letters:
@@ -110,7 +110,7 @@ class Game():
         return rulesDict
     
     
-    def __getDistinctLetters__(self, word: string) -> list:
+    def _getDistinctLetters(self, word: string) -> list:
         
         
         distinct = {}
@@ -125,7 +125,7 @@ class Game():
         return letters
     
     
-    def __chooseWord__(self) -> string:
+    def _chooseWord(self) -> string:
         
         random.seed()
         
@@ -146,7 +146,7 @@ class Game():
             
     
     
-    def __openWin__(self, score: int):
+    def _openWin(self, score: int):
         
         isHighScore = self.db.isHighScore(self.level, score)
                     
@@ -167,10 +167,10 @@ class Game():
         elif (atFinish == common.RETRY):
             self.openLevel()
         elif (atFinish == common.MAIN_MENU):
-            self.__openMainMenu__()   
+            self._openMainMenu()   
      
      
-    def __openLoose__(self): 
+    def _openLoose(self): 
         
         self.ui.outputLoose()
         
@@ -179,13 +179,13 @@ class Game():
         if (atFinish == common.RETRY):
             self.openLevel()
         elif (atFinish == common.MAIN_MENU):
-            self.__openMainMenu__()   
-    
+            self._openMainMenu()   
+   
     
 
     
     
-    def __openMainMenu__(self):
+    def _openMainMenu(self):
         
         levels = self.db.getLevels()
               
