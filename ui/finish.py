@@ -13,22 +13,28 @@ class Finish():
 
     def show(self, options):
         
-        self.retryButton = ui.Button(self.screen, 'retry', 50, 50)
-        self.mainmenuButton = ui.Button(self.screen, 'mainmenu', 100, 100)
-        self.nextButton = ui.Button(self.screen, 'next', 200, 300)
+        self.retryButton = ui.Button(self.screen, 'retry', 50, 50, False)
+        self.mainmenuButton = ui.Button(self.screen, 'mainmenu', 100, 100, False)
+        self.nextButton = ui.Button(self.screen, 'next', 200, 300, False)
         
             
         if(options == common.NEXT_LEVEL):        
             self.buttons.append(self.retryButton)
             self.buttons.append(self.mainmenuButton)
             self.buttons.append(self.nextButton)
+            self.retryButton.show()
+            self.mainmenuButton.show()
+            self.nextButton.show()
             
         elif(options == common.RETRY):
             self.buttons.append(self.retryButton)
             self.buttons.append(self.mainmenuButton)       
+            self.retryButton.show()
+            self.mainmenuButton.show()
             
         elif(options == common.MAIN_MENU):   
             self.buttons.append(self.mainmenuButton) 
+            self.mainmenuButton.show()
         
         
         

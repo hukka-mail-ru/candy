@@ -163,7 +163,7 @@ class Game():
         
         if (atFinish == common.NEXT_LEVEL):
             self.level = self.db.getLevel(nextLevelId) 
-            self.openLevel()
+            self.startLevel(self.level)
         elif (atFinish == common.RETRY):
             self.openLevel()
         elif (atFinish == common.MAIN_MENU):

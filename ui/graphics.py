@@ -46,7 +46,7 @@ class GraphicsUI():
     def outputLoose(self):
         print("NO!")  
 
-    def outputWin(self):
+    def outputWin(self, score, isHighScore):
         print("YES!")   
         
     

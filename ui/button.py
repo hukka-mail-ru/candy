@@ -3,14 +3,21 @@ import pygame
 class Button():
 
 
-    def __init__(self, screen, name, x, y):
+    def __init__(self, screen, name, x, y, show=True):
         
-        self.b = screen.blit( pygame.image.load("ui/img/" + name + ".png"), (x,y) )
+        if show:
+            self.b = screen.blit( pygame.image.load("ui/img/" + name + ".png"), (x,y) )
+            
         self.x = x
         self.y = y
         self.name = name
         self.screen = screen
         self.pressed = False
+
+    def show(self):
+        
+        self.b = self.screen.blit( pygame.image.load("ui/img/" + self.name + ".png"), (self.x,self.y) )
+        
 
     def setPressed(self, pos):
         
