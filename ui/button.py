@@ -3,12 +3,12 @@ import pygame
 class Button():
 
 
-    def __init__(self, screen, file, x, y):
+    def __init__(self, screen, name, x, y):
         
-        self.b = screen.blit( pygame.image.load("ui/img/" + file + ".png"), (x,y) )
+        self.b = screen.blit( pygame.image.load("ui/img/" + name + ".png"), (x,y) )
         self.x = x
         self.y = y
-        self.file = file
+        self.name = name
         self.screen = screen
         self.pressed = False
 
@@ -18,7 +18,7 @@ class Button():
             
             self.pressed = True 
             
-            self.b = self.screen.blit( pygame.image.load("ui/img/" + self.file + "_pressed.png"), (self.x,self.y) )
+            self.b = self.screen.blit( pygame.image.load("ui/img/" + self.name + "_pressed.png"), (self.x,self.y) )
             pygame.display.flip()
 
 
@@ -26,7 +26,7 @@ class Button():
         
         if self.pressed:  
             
-            self.b = self.screen.blit( pygame.image.load("ui/img/" + self.file + ".png"), (self.x,self.y) )
+            self.b = self.screen.blit( pygame.image.load("ui/img/" + self.name + ".png"), (self.x,self.y) )
             pygame.display.flip()
             
             self.pressed = False
@@ -34,6 +34,9 @@ class Button():
             return True 
              
         return False
+    
+    def getName(self):
+        return self.name
 
 
 class LevelButton (Button):

@@ -177,7 +177,7 @@ class Game():
         atFinish = self.ui.inputAtFinish(common.RETRY)   
         
         if (atFinish == common.RETRY):
-            self.openLevel()
+            self.startLevel(self.level)
         elif (atFinish == common.MAIN_MENU):
             self._openMainMenu()   
    

@@ -1,9 +1,12 @@
 import string
 import pygame
 import time
+
 import engine
+import common
 import ui.mainmenu
 import ui.field
+import ui.finish
 
 class GraphicsUI():
     
@@ -12,6 +15,7 @@ class GraphicsUI():
         self.screen = pygame.display.set_mode((480, 500))
         self.mainMenu = ui.mainmenu.MainMenu(self.screen)
         self.field = ui.field.Field(self.screen)
+        self.finish = ui.finish.Finish(self.screen)
 
     def showIntro(self):
         pass
@@ -35,5 +39,21 @@ class GraphicsUI():
          
             
     def inputUserGuess(self) -> string:
-        guessed = input('\nType your answer: ')         
+        guessed = self.field.inputUserGuess()  
+        print(guessed)   
         return guessed
+    
+    def outputLoose(self):
+        print("NO!")  
+
+    def outputWin(self):
+        print("YES!")   
+        
+    
+    def inputAtFinish(self, options):
+    
+        self.screen.fill((0,0,0))
+        
+        return self.finish.show(options)
+        
+  

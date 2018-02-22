@@ -1,4 +1,7 @@
 import pygame
+import pygame.locals as pl
+import ui.pygame_textinput
+import string
 
 class Field():
     
@@ -67,3 +70,28 @@ class Field():
                                                                                     
                                                     
         pygame.display.flip()
+        
+        
+    def inputUserGuess(self) -> string:   
+        # Create TextInput-object
+        textinput = ui.pygame_textinput.TextInput()
+        
+        clock = pygame.time.Clock()
+        
+        while True:
+        
+            events = pygame.event.get()
+            for event in events:
+                if event.type == pygame.QUIT:
+                    exit()
+                elif event.type == pygame.KEYDOWN and event.key == pl.K_RETURN:
+                    guessed = textinput.get_text()
+                    return guessed
+        
+            # Feed it with events every frame
+            textinput.update(events)
+            # Blit its surface onto the screen
+            self.screen.blit(textinput.get_surface(), (10, 10))
+        
+            pygame.display.update()
+            clock.tick(30)
