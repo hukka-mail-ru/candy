@@ -1,2 +1,3 @@
 # candy
-Candy Letters Game
+
+Candy Letters Children Game
